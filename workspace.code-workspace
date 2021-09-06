@@ -11,6 +11,7 @@
 		"phpcs.showWarnings": true,
 		"phpcs.composerJsonPath": "composer.json",
 		"files.eol": "\r\n",
-		"files.insertFinalNewline": true
+		"files.insertFinalNewline": true,
+		"files.trimTrailingWhitespace": true
 	}
 }
