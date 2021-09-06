@@ -6,7 +6,7 @@ PATH="/usr/local/bin:$PATH"
 #
 # vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs
 WPFILES=`git diff --cached --name-only --diff-filter=AM | grep '.php' | tr '\n' ' '`
-if [[ -z $PHPFILES ]]
+if [[ -z $WPFILES ]]
 then
 	echo ""
 else
