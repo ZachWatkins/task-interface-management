@@ -1,0 +1,17 @@
+{
+    "name": "zachwatkins/task-interface-manager",
+    "description": "A task management plugin for everyone that ultimately saves time, scales, and extends.",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Zachary Watkins",
+            "email": "watkinza@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^1.0"
+    }
+}

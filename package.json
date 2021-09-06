@@ -1,0 +1,32 @@
+{
+  "name": "task-interface-management",
+  "version": "1.0.1",
+  "description": "A task management plugin for everyone that ultimately saves time, scales, and extends.",
+  "main": "task-interface-management.php",
+  "scripts": {
+    "start": "git config core.hooksPath hooks && chmod u+x ./hooks/pre-commit && composer install && npm install",
+    "checkphp": "npm run configphpcs && vendor/bin/phpcs --standard=WordPress ./*.php ./src",
+    "fixphp": "npm run configphpcs && vendor/bin/phpcbf --standard=WordPress ./*.php ./src",
+    "configphpcs": "vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs"
+  },
+  "author": "Zachary Watkins",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/zachwatkins/task-interface-management/issues",
+    "email": "watkinza@gmail.com"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zachwatkins/task-interface-management.git"
+  },
+  "homepage": "https://github.com/zachwatkins/task-interface-management#readme",
+  "browserslist": [
+    "last 2 versions",
+    "ie > 10"
+  ]
+}
