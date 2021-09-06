@@ -49,25 +49,6 @@ register_activation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, 'task_interface_ma
  */
 function task_interface_management_activation() {
 
-	// Check for missing dependencies.
-	// $plugin = is_plugin_active( 'advanced-custom-fields/acf.php' );
-
-	// if ( true !== $plugin ) {
-
-	// 	$error = sprintf(
-	// 		/* translators: %s: URL for plugins dashboard page */
-	// 		__(
-	// 			'Plugin NOT activated: The <strong>Task Interface Management</strong> plugin needs the <strong>Advanced Custom Fields</strong> plugin to be installed and activated. <a href="%s">Back to plugins page</a>',
-	// 			'task-interface-management-textdomain'
-	// 		),
-	// 		get_admin_url( null, '/plugins.php' )
-	// 	);
-	// 	wp_die( wp_kses_post( $error ) );
-
-	// } else {
-
-		update_option( 'task_interface_management_permalinks_flushed', 0 );
-
-	// }
+	update_option( 'task_interface_management_permalinks_flushed', 0 );
 
 }

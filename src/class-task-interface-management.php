@@ -41,51 +41,9 @@ class Task_Interface_Management {
 	 */
 	public function __construct() {
 
-		// Public asset files.
-		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-assets.php';
-		new \Task_Interface_Management\Assets();
-
 		// Register post types.
 		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-register-task-post-type.php';
-		new \Task_Interface_Management\Task_Post_Type();
-
-		// // Register settings page.
-		// require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-settings-page.php';
-		// $page_args      = array(
-		// 	'method'    => 'add_options_page',
-		// 	'title'     => 'My Settings',
-		// 	'slug'      => 'plugin-name-settings',
-		// 	'opt_group' => 'my_option_group',
-		// 	'opt_name'  => 'my_option_name',
-		// );
-		// $method_args    = array(
-		// 	'page_title' => 'Plugin Name',
-		// 	'menu_title' => 'Plugin Name',
-		// 	'capability' => 'manage_options',
-		// 	'menu_slug'  => 'plugin-name-settings',
-		// 	'icon_url'   => 'dashicons-portfolio',
-		// 	'position'   => 0,
-		// );
-		// $field_sections = array(
-		// 	'setting_section_id' => array(
-		// 		'title'  => 'My Custom Settings',
-		// 		'desc'   => 'Enter your settings below:',
-		// 		'fields' => array(
-		// 			array(
-		// 				'id'    => 'id_number',
-		// 				'title' => 'ID Number',
-		// 				'type'  => 'int',
-		// 			),
-		// 			array(
-		// 				'id'    => 'title',
-		// 				'title' => 'Title',
-		// 				'type'  => 'text',
-		// 			),
-		// 		),
-		// 	),
-		// );
-		// new \Task_Interface_Management\Settings_Page( $page_args, $method_args, $field_sections );
-
+		new \Task_Interface_Management\Register_Task_Post_Type();
 
 	}
 

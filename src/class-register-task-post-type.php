@@ -47,7 +47,7 @@ class Register_Task_Post_Type {
 
 		// Register taxonomies.
 		$type_tax_args = array(
-			'description' => 'The scope of operations the task will be performed within.'
+			'description' => 'The scope of operations the task will be performed within.',
 			'labels' => array(
 				'name'         => 'Task Type',
 				'search_items' => __( 'Search Task Types', 'task-interface-management-textdomain' ),
@@ -75,7 +75,7 @@ class Register_Task_Post_Type {
 			'show_tagcloud' => false,
 			'show_admin_column' => true,
 		);
-		new \Task_Interface_Management\Taxonomy(
+		new \Task_Inerface_Management\Taxonomy(
 			'Type',
 			'task-type',
 			$this->post_type,
@@ -84,7 +84,7 @@ class Register_Task_Post_Type {
 
 		// Register taxonomies.
 		$status_tax_args = array(
-			'description' => 'The task\'s current status of activity.'
+			'description' => 'The task\'s current status of activity.',
 			'labels' => array(
 				'name'         => 'Task Status',
 				'search_items' => __( 'Search Task Statuses', 'task-interface-management-textdomain' ),
@@ -121,7 +121,7 @@ class Register_Task_Post_Type {
 
 		// Register taxonomies.
 		$priority_tax_args = array(
-			'description' => 'The task\'s priority level amongst other work to be done.'
+			'description' => 'The task\'s priority level amongst other work to be done.',
 			'labels' => array(
 				'name'         => 'Task Priority',
 				'search_items' => __( 'Search Task Priorities', 'task-interface-management-textdomain' ),
@@ -177,7 +177,7 @@ class Register_Task_Post_Type {
 			'view_item'          => __( 'View Task', 'task-interface-management-textdomain' ),
 			'search_items'       => __( 'Search Tasks', 'task-interface-management-textdomain' ),
 			'not_found'          => __( 'No Tasks Found', 'task-interface-management-textdomain' ),
-			'not_found_in_trash' => __( 'No Tasks found in trash', 'task-interface-management-textdomain' ), $plural ),
+			'not_found_in_trash' => __( 'No Tasks found in trash', 'task-interface-management-textdomain' ),
 			'parent_item_colon'  => '',
 			'menu_name'          => 'Tasks',
 		);

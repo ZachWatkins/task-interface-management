@@ -10,14 +10,7 @@ if [[ -z $PHPFILES ]]
 then
 	echo ""
 else
-	for file in ${PHPFILES}
-	do
-		phpFilesStr="$phpFilesStr$phpFilesSeparator$file"
-		phpFilesSeparator=" "
-	done
-
-	phplint=`vendor/bin/phpcs --standard=WordPress $phpFilesStr`
-	echo $phpFilesStr;
+	phplint=`vendor/bin/phpcs --standard=WordPress --filter="gitstaged"`Z
 
 	# Try to fix files automatically with phpcbf
 	if [[ "$phplint" == *"FOUND"* ]]
