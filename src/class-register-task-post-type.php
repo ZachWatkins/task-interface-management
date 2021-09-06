@@ -27,9 +27,6 @@ class Register_Task_Post_Type {
 	 */
 	public function __construct() {
 
-		// Add required classes.
-		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-taxonomy.php';
-
 		// Register_post_type.
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'init', array( $this, 'register_post_type' ) );
@@ -44,6 +41,9 @@ class Register_Task_Post_Type {
 	 * @return void
 	 */
 	public function register_taxonomy() {
+
+		// Add required classes.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-taxonomy.php';
 
 		// Register taxonomies.
 		$type_tax_args = array(
@@ -75,7 +75,7 @@ class Register_Task_Post_Type {
 			'show_tagcloud' => false,
 			'show_admin_column' => true,
 		);
-		new \Task_Inerface_Management\Taxonomy(
+		new \Task_Interface_Management\Taxonomy(
 			'Type',
 			'task-type',
 			$this->post_type,
