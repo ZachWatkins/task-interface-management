@@ -155,7 +155,7 @@ class Taxonomy {
 	 *
 	 * @return void
 	 */
-	public static function add_meta_box() {
+	public function add_meta_box() {
 		add_action( "{$this->slug}_edit_form_fields", array( $this, 'taxonomy_edit_meta_field' ), 10, 2 );
 		add_action( "edited_{$this->slug}", array( $this, 'save_taxonomy_custom_meta' ), 10, 2 );
 	}
@@ -167,7 +167,7 @@ class Taxonomy {
 	 * @param string $taxonomy Current taxonomy slug.
 	 * @return void
 	 */
-	public static function taxonomy_edit_meta_field( $tag, $taxonomy ) {
+	public function taxonomy_edit_meta_field( $tag, $taxonomy ) {
 
 		// put the term ID into a variable.
 		$t_id = $tag->term_id;
@@ -273,7 +273,7 @@ class Taxonomy {
 	 * @param int $tt_id   The term taxonomy ID.
 	 * @return void
 	 */
-	public static function save_taxonomy_custom_meta( $term_id, $tt_id ) {
+	public function save_taxonomy_custom_meta( $term_id, $tt_id ) {
 
 		foreach ( $this->meta_boxes as $key => $meta ) {
 
@@ -314,7 +314,7 @@ class Taxonomy {
 	 * @param string $template The path of the template to include.
 	 * @return string
 	 */
-	public static function custom_template( $template ) {
+	public function custom_template( $template ) {
 
 		if ( is_tax( $this->slug ) ) {
 
@@ -331,7 +331,7 @@ class Taxonomy {
 	 * @param array $columns The list of taxonomy columns sortable on this post type's list page.
 	 * @return array
 	 */
-	public static function register_sortable_columns( $columns ) {
+	public function register_sortable_columns( $columns ) {
 
 		$columns[ "taxonomy-{$this->slug}" ] = "taxonomy-{$this->slug}";
 
@@ -346,7 +346,7 @@ class Taxonomy {
 	 * @param object $wp_query The query object.
 	 * @return array
 	 */
-	public static function taxonomy_orderby( $orderby, $wp_query ) {
+	public function taxonomy_orderby( $orderby, $wp_query ) {
 
 		global $wpdb;
 
