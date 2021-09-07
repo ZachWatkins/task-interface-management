@@ -36,19 +36,3 @@ define( 'TASK_INTERFACE_MANAGEMENT_DIR_URL', plugin_dir_url( __FILE__ ) );
  */
 require TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-interface-management.php';
 new Task_Interface_Management();
-
-/* Activation hooks */
-register_deactivation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, 'flush_rewrite_rules' );
-register_activation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, 'task_interface_management_activation' );
-
-/**
- * Helper option flag to indicate rewrite rules need flushing
- *
- * @since 1.0.0
- * @return void
- */
-function task_interface_management_activation() {
-
-	update_option( 'task_interface_management_permalinks_flushed', 0 );
-
-}

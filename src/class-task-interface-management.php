@@ -41,9 +41,55 @@ class Task_Interface_Management {
 	 */
 	public function __construct() {
 
+		/* Activation hooks */
+		register_activation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, array( $this, 'activation' ) );
+		register_deactivation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, array( $this, 'deactivation' ) );
+
 		// Register post types.
-		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-register-task-post-type.php';
-		new \Task_Interface_Management\Register_Task_Post_Type();
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-post-type.php';
+		$post_type = new \Task_Interface_Management\Register_Task_Post_Type();
+		$post_type->register();
+
+	}
+
+	/**
+	 * Activation hook.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function activation() {
+
+		// Register post types.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-post-type.php';
+		$post_type = new \Task_Interface_Management\Register_Task_Post_Type();
+		$post_type->register_post_type();
+
+		// Flush rewrite rules.
+		flush_rewrite_rules();
+
+		// Add user capabilities.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-user-capabilities.php';
+		$new_caps = new \Task_Interface_Management\User_Capabilities();
+		$new_caps->register();
+
+	}
+
+	/**
+	 * Deactivation hook.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function deactivation() {
+
+		// Remove user capabilities.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-user-capabilities.php';
+		$new_caps = new \Task_Interface_Management\User_Capabilities();
+		$new_caps->unregister();
+
+		// Flush rewrite rules.
+		flush_rewrite_rules();
 
 	}
 

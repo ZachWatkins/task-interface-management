@@ -25,18 +25,19 @@ class Register_Task_Post_Type {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct() {}
+
+	public function register() {
 
 		// Register_post_type.
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'init', array( $this, 'register_post_type' ) );
-		add_action( 'init', array( $this, 'maybe_flush_rewrite_rules' ) );
 
 	}
 
 	/**
 	 * Register taxonomies associated with the Task post type.
-	 * 
+	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
@@ -52,7 +53,7 @@ class Register_Task_Post_Type {
 				'name'         => 'Task Type',
 				'search_items' => __( 'Search Task Types', 'task-interface-management-textdomain' ),
 				'all_items'    => __( 'All Task Types', 'task-interface-management-textdomain' ),
-				'menu_name'    => 'Task Types',
+				'menu_name'    => 'Type',
 			),
 			'default_term' => array(
 				'name'        => 'General',
@@ -76,7 +77,7 @@ class Register_Task_Post_Type {
 			'show_admin_column' => true,
 		);
 		new \Task_Interface_Management\Taxonomy(
-			'Type',
+			$this->post_name,
 			'task-type',
 			$this->post_type,
 			$type_tax_args
@@ -89,7 +90,7 @@ class Register_Task_Post_Type {
 				'name'         => 'Task Status',
 				'search_items' => __( 'Search Task Statuses', 'task-interface-management-textdomain' ),
 				'all_items'    => __( 'All Task Statuses', 'task-interface-management-textdomain' ),
-				'menu_name'    => 'Task Statuses',
+				'menu_name'    => 'Status',
 			),
 			'default_term' => array(
 				'name'        => 'To do',
@@ -126,7 +127,7 @@ class Register_Task_Post_Type {
 				'name'         => 'Task Priority',
 				'search_items' => __( 'Search Task Priorities', 'task-interface-management-textdomain' ),
 				'all_items'    => __( 'All Task Priorities', 'task-interface-management-textdomain' ),
-				'menu_name'    => 'Task Priorities',
+				'menu_name'    => 'Priority',
 			),
 			'default_term' => array(
 				'name'        => 'Medium',
@@ -166,23 +167,35 @@ class Register_Task_Post_Type {
 	 */
 	public function register_post_type() {
 
-		// Backend labels.
+		// Every supported post type label, in case we need them in the future.
 		$labels = array(
-			'name'               => 'Tasks',
-			'singular_name'      => 'Task',
-			'add_new'            => __( 'Add New', 'task-interface-management-textdomain' ),
-			'add_new_item'       => __( 'Add New Task', 'task-interface-management-textdomain' ),
-			'edit_item'          => __( 'Edit Task', 'task-interface-management-textdomain' ),
-			'new_item'           => __( 'New Task', 'task-interface-management-textdomain' ),
-			'view_item'          => __( 'View Task', 'task-interface-management-textdomain' ),
-			'search_items'       => __( 'Search Tasks', 'task-interface-management-textdomain' ),
-			'not_found'          => __( 'No Tasks Found', 'task-interface-management-textdomain' ),
-			'not_found_in_trash' => __( 'No Tasks found in trash', 'task-interface-management-textdomain' ),
-			'parent_item_colon'  => '',
-			'menu_name'          => 'Tasks',
+			'name'                  => _x( 'Tasks', 'Post type general name', 'task-interface-management-textdomain' ),
+			'singular_name'         => _x( 'Task', 'Post type singular name', 'task-interface-management-textdomain' ),
+			'menu_name'             => _x( 'Tasks', 'Admin Menu text', 'task-interface-management-textdomain' ),
+			'name_admin_bar'        => _x( 'Task', 'Add New on Toolbar', 'task-interface-management-textdomain' ),
+			'add_new'               => __( 'Add New', 'task-interface-management-textdomain' ),
+			'add_new_item'          => __( 'Add New Task', 'task-interface-management-textdomain' ),
+			'new_item'              => __( 'New Task', 'task-interface-management-textdomain' ),
+			'edit_item'             => __( 'Edit Task', 'task-interface-management-textdomain' ),
+			'view_item'             => __( 'View Task', 'task-interface-management-textdomain' ),
+			'all_items'             => __( 'All Tasks', 'task-interface-management-textdomain' ),
+			'search_items'          => __( 'Search Tasks', 'task-interface-management-textdomain' ),
+			'parent_item_colon'     => __( 'Parent Tasks:', 'task-interface-management-textdomain' ),
+			'not_found'             => __( 'No tasks found.', 'task-interface-management-textdomain' ),
+			'not_found_in_trash'    => __( 'No tasks found in Trash.', 'task-interface-management-textdomain' ),
+			'featured_image'        => _x( 'Task Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'task-interface-management-textdomain' ),
+			'set_featured_image'    => _x( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'task-interface-management-textdomain' ),
+			'remove_featured_image' => _x( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'task-interface-management-textdomain' ),
+			'use_featured_image'    => _x( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'task-interface-management-textdomain' ),
+			'archives'              => _x( 'Task archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'task-interface-management-textdomain' ),
+			'insert_into_item'      => _x( 'Insert into task', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'task-interface-management-textdomain' ),
+			'uploaded_to_this_item' => _x( 'Uploaded to this task', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'task-interface-management-textdomain' ),
+			'filter_items_list'     => _x( 'Filter tasks list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'task-interface-management-textdomain' ),
+			'items_list_navigation' => _x( 'Tasks list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'task-interface-management-textdomain' ),
+			'items_list'            => _x( 'Tasks list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'task-interface-management-textdomain' ),
 		);
 
-		/* Register post types */
+		/* Register post type */
         $args = array(
 			'labels'           => $labels,
             'description'      => 'A way to record, organize, and complete work.',
@@ -197,7 +210,6 @@ class Register_Task_Post_Type {
             'supports'         => array(
                 'title',
                 'editor',
-                'comments',
                 'author',
             ),
 			'taxonomies'       => array(
@@ -217,16 +229,5 @@ class Register_Task_Post_Type {
 
 		register_post_type( $this->post_type, $args );
 
-	}
-
-	public function maybe_flush_rewrite_rules () {
-		
-		// Conditionally flush rewrite rules on activation.
-		if ( ! get_option( 'task_interface_management_permalinks_flushed' ) ) {
-
-			flush_rewrite_rules( false );
-			update_option( 'task_interface_management_permalinks_flushed', 1 );
-
-		}
 	}
 }
