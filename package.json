@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A task management plugin for everyone that ultimately saves time, scales, and extends.",
   "main": "task-interface-management.php",
+  "private": true,
   "scripts": {
     "start": "git config core.hooksPath hooks && composer install && npm run configphpcs && npm install",
     "checkphp": "./vendor/bin/phpcs --ignore=*/vendor/*,*/node_modules/* --standard=WordPress .",
@@ -14,6 +15,7 @@
     "windows-configphpcs": "php ./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs"
   },
   "author": "Zachary Watkins",
+  "contributors": ["Zachary Watkins <watkinza@gmail.com>"],
   "license": "GPL-2.0+",
   "bugs": {
     "url": "https://github.com/zachwatkins/task-interface-management/issues",
@@ -32,5 +34,14 @@
   "browserslist": [
     "last 2 versions",
     "ie > 10"
+  ],
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "custom post type",
+    "admin",
+    "to do list",
+    "enterprise",
+    "teams"
   ]
 }
