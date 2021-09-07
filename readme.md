@@ -13,13 +13,21 @@
 2. Compress the plugin to a ZIP file named "task-interface-management.zip".
 3. Upload the plugin to your site via the admin dashboard plugin uploader.
 
-## Developer Notes
+## Notices
 
-This repository uses [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/) with WordPress coding standards checks and a pre-commit hook. Pretty neat! I have made efforts to make this repository work between my Mac (terminal) and Windows (powershell) environments with the VSCode editor.
-
-Line endings are enforced as WordPress-style CRLF "\r\n". This is what WordPress requires for its Subversion version control system, which is what developers must use to submit their WordPress plugins and themes to the official WordPress public extension library.
+* When you deactivate the plugin, the posts and taxonomy terms will not be deleted from the website. Nor will they be deleted if a user is deleted. This is to protect you in situations where you are asked to disable all plugins during the course of troubleshooting an issue with your website. At some point I will implement features that give control over this into a Settings page.
 
 ## Roadmap of future improvements
-1. Settings page with user role management.
-2. Multisite support.
-3. Admin comment system.
+1. Admin comment system.
+2. Settings page with user role management.
+3. Multisite support.
+
+## Developer Notes
+### Developer Features
+This repository uses [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/) with WordPress coding standards checks and a pre-commit hook. Pretty neat! I have made efforts to make this repository work between my Mac (terminal) and Windows (powershell) environments with the VSCode editor.
+### Developer Conventions
+Line endings are enforced as WordPress-style CRLF "\r\n". This is what WordPress requires for its Subversion version control system, which is what developers must use to submit their WordPress plugins and themes to the official WordPress public extension library.
+
+### Developer Potential Installation Issues
+#### Local by Flywheel
+I had to disable the Windows IIS service which was running on IP 0.0.0.0:80 and interfered with Local's Router functionality.
