@@ -15,18 +15,24 @@ namespace Task_Interface_Management;
  *
  * @since 1.0.0
  */
-class Register_Task_Post_Type {
-
-	private $post_type = 'task';
+class Task_Post_Type {
 
 	/**
 	 * Initialize the class
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
 	public function __construct() {}
 
+	/**
+	 * Register the custom post type and taxonomies.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function register() {
 
 		// Register_post_type.
@@ -79,7 +85,7 @@ class Register_Task_Post_Type {
 		new \Task_Interface_Management\Taxonomy(
 			$this->post_name,
 			'task-type',
-			$this->post_type,
+			'task',
 			$type_tax_args
 		);
 
@@ -116,7 +122,7 @@ class Register_Task_Post_Type {
 		new \Task_Interface_Management\Taxonomy(
 			'Status',
 			'task-status',
-			$this->post_type,
+			'task',
 			$status_tax_args
 		);
 
@@ -153,7 +159,7 @@ class Register_Task_Post_Type {
 		new \Task_Interface_Management\Taxonomy(
 			'Priority',
 			'task-priority',
-			$this->post_type,
+			'task',
 			$priority_tax_args
 		);
 
@@ -221,13 +227,13 @@ class Register_Task_Post_Type {
 			'can_export'       => true,
 			'delete_with_user' => false,
 			'rewrite'          => array(
-				'slug'       => $this->post_type,
+				'slug'       => 'task',
 				'with_front' => true,
 				'feeds'      => false,
 			),
 		);
 
-		register_post_type( $this->post_type, $args );
+		register_post_type( 'task', $args );
 
 	}
 }

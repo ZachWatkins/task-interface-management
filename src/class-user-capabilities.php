@@ -11,13 +11,20 @@
 namespace Task_Interface_Management;
 
 /**
- * The core plugin class
+ * User Capabilities.
+ *
+ * The user capabilities class facilitates adding and removing user capabilities on plugin activation and deactivation.
  *
  * @since 1.0.0
- * @return void
  */
 class User_Capabilities {
 
+	/**
+	 * Capabilities List.
+	 *
+	 * @since 1.0.0
+	 * @var array $cap_list The complete list of capabilities unique to this plugin.
+	 */
 	private $cap_list = array(
 		'manage_task_types',
 		'manage_task_statuses',
@@ -39,7 +46,7 @@ class User_Capabilities {
 	);
 
 	/**
-	 * Initialize the class
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -48,9 +55,12 @@ class User_Capabilities {
 	}
 
 	/**
-	 * Register user roles
+	 * Register user roles.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $roles The user roles to register the set of capabilities for.
+	 *
 	 * @return void
 	 */
 	public function register( $roles = array(
@@ -100,6 +110,8 @@ class User_Capabilities {
 	 * Unregister user capabilities.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $roles The user roles to register the set of capabilities for.
 	 *
 	 * @return void
 	 */
