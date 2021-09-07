@@ -23,6 +23,8 @@
 3. Multisite support.
 
 ## Developer Notes
+Please refer to the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/) when you have questions about how to format your code.
+
 ### Features
 This repository uses [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/) with WordPress coding standards checks and a pre-commit hook. Pretty neat! I have made efforts to make this repository work between my Mac (terminal) and Windows (powershell) environments with the VSCode editor.
 ### Conventions

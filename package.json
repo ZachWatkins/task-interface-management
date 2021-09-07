@@ -21,7 +21,11 @@
     "url": "https://github.com/zachwatkins/task-interface-management/issues",
     "email": "watkinza@gmail.com"
   },
-  "dependencies": {},
+  "dependencies": {
+    "grunt": ">1.0.3",
+    "grunt-contrib-coffee": ">2.0.0",
+    "grunt-contrib-compress": ">1.4.3"
+  },
   "devDependencies": {},
   "engines": {
     "node": ">=8.0.0"
