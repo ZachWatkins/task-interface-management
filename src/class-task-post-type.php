@@ -24,7 +24,8 @@ class Task_Post_Type {
 	 *
 	 * @return void
 	 */
-	public function __construct() {}
+	public function __construct() {
+	}
 
 	/**
 	 * Register the custom post type and taxonomies.
@@ -38,6 +39,19 @@ class Task_Post_Type {
 		// Register_post_type.
 		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'init', array( $this, 'register_post_type' ) );
+
+	}
+
+	/**
+	 * The action hooks and filters needed to manage the post type.
+	 *
+	 * @return void
+	 */
+	public function hooks() {
+
+		add_filter( 'manage_task_posts_columns', array( $this, 'add_list_view_columns' ) );
+		add_action( 'manage_task_posts_custom_column', array( $this, 'output_list_view_columns' ), 10, 2 );
+		add_filter( 'pre_get_posts', array( $this, 'admin_post_sort_default' ) );
 
 	}
 
@@ -217,6 +231,9 @@ class Task_Post_Type {
 				'title',
 				'editor',
 				'author',
+				'custom-fields',
+				'excerpt',
+				'page-attributes',
 			),
 			'taxonomies'       => array(
 				'task-type',
@@ -235,5 +252,63 @@ class Task_Post_Type {
 
 		register_post_type( 'task', $args );
 
+	}
+
+	/**
+	 * Add columns to the list view for posts.
+	 *
+	 * @param array $columns The current set of columns.
+	 * @return array
+	 */
+	public function add_list_view_columns( $columns ) {
+
+		if ( array_key_exists( 'author', $columns, true ) ) {
+			$columns['author'] = __( 'Submitted By', 'task-interface-management-textdomain' );
+		}
+
+		$columns = array( 'order' => 'Rank' ) + $columns;
+
+		return $columns;
+
+	}
+
+	/**
+	 * Add columns to order post list view.
+	 *
+	 * @param string $column_name The currently handled column name.
+	 * @param int    $post_id     The current post ID.
+	 */
+	public function output_list_view_columns( $column_name, $post_id ) {
+
+		global $post;
+
+		switch ( $column_name ) {
+			case 'order':
+				$order = $post->menu_order;
+				// if ( $order > 0 ) {
+				// 	$order = 'N/A';
+				// }
+				echo '(' . $order . ')';
+				break;
+			default:
+				break;
+		}
+
+	}
+
+	/**
+	 * Sort the Task posts by certain parameters by default in admin.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param WP_Query $wp_query The WP_Query object.
+	 *
+	 * @return WP_Query
+	 */
+	public function admin_post_sort_default( $wp_query ){
+		if ( ! is_admin() && 'task' !== $wp_query->get('post_type') && ! $wp_query->is_main_query() ) {
+			return;
+		}
+		return $wp_query;
 	}
 }

@@ -1,6 +1,6 @@
 {
   "name": "task-interface-management",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A task management plugin for everyone that ultimately saves time, scales, and extends.",
   "main": "task-interface-management.php",
   "private": true,
@@ -15,7 +15,9 @@
     "windows-configphpcs": "php ./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs"
   },
   "author": "Zachary Watkins",
-  "contributors": ["Zachary Watkins <watkinza@gmail.com>"],
+  "contributors": [
+    "Zachary Watkins <watkinza@gmail.com>"
+  ],
   "license": "GPL-2.0+",
   "bugs": {
     "url": "https://github.com/zachwatkins/task-interface-management/issues",

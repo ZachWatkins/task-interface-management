@@ -49,6 +49,7 @@ class Task_Interface_Management {
 		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-post-type.php';
 		$post_type = new \Task_Interface_Management\Task_Post_Type();
 		$post_type->register();
+		$post_type->hooks();
 
 	}
 
