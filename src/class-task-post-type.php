@@ -51,6 +51,8 @@ class Task_Post_Type {
 
 		add_filter( 'manage_task_posts_columns', array( $this, 'add_list_view_columns' ) );
 		add_action( 'manage_task_posts_custom_column', array( $this, 'output_list_view_columns' ), 10, 2 );
+		add_filter( 'manage_edit-header_text_sortable_columns', array( $this, 'sortable_order_column' ) );
+
 		add_filter( 'pre_get_posts', array( $this, 'admin_post_sort_default' ) );
 
 	}
@@ -67,23 +69,23 @@ class Task_Post_Type {
 		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-taxonomy.php';
 
 		// Register taxonomies.
-		$type_tax_args = array(
-			'description'       => 'The scope of operations the task will be performed within.',
+		$priority_tax_args = array(
+			'description'       => 'The task\'s priority level amongst other work to be done.',
 			'labels'            => array(
-				'name'         => 'Task Type',
-				'search_items' => __( 'Search Task Types', 'task-interface-management-textdomain' ),
-				'all_items'    => __( 'All Task Types', 'task-interface-management-textdomain' ),
-				'menu_name'    => 'Type',
+				'name'         => 'Task Priority',
+				'search_items' => __( 'Search Task Priorities', 'task-interface-management-textdomain' ),
+				'all_items'    => __( 'All Task Priorities', 'task-interface-management-textdomain' ),
+				'menu_name'    => 'Priority',
 			),
 			'default_term'      => array(
-				'name'        => 'General',
-				'slug'        => 'general',
-				'description' => 'The scope of this task will be general.',
+				'name'        => 'Medium',
+				'slug'        => 'medium',
+				'description' => 'This task is of normal priority.',
 			),
 			'capabilities'      => array(
-				'manage_terms' => 'manage_task_types',
-				'edit_terms'   => 'manage_task_types',
-				'delete_terms' => 'manage_task_types',
+				'manage_terms' => 'manage_task_priorities',
+				'edit_terms'   => 'manage_task_priorities',
+				'delete_terms' => 'manage_task_priorities',
 				'assign_terms' => 'edit_tasks',
 			),
 			'args'              => array(
@@ -97,10 +99,10 @@ class Task_Post_Type {
 			'show_admin_column' => true,
 		);
 		new \Task_Interface_Management\Taxonomy(
-			$this->post_name,
-			'task-type',
+			'Priority',
+			'task-priority',
 			'task',
-			$type_tax_args
+			$priority_tax_args
 		);
 
 		// Register taxonomies.
@@ -141,23 +143,23 @@ class Task_Post_Type {
 		);
 
 		// Register taxonomies.
-		$priority_tax_args = array(
-			'description'       => 'The task\'s priority level amongst other work to be done.',
+		$type_tax_args = array(
+			'description'       => 'The scope of operations the task will be performed within.',
 			'labels'            => array(
-				'name'         => 'Task Priority',
-				'search_items' => __( 'Search Task Priorities', 'task-interface-management-textdomain' ),
-				'all_items'    => __( 'All Task Priorities', 'task-interface-management-textdomain' ),
-				'menu_name'    => 'Priority',
+				'name'         => 'Task Type',
+				'search_items' => __( 'Search Task Types', 'task-interface-management-textdomain' ),
+				'all_items'    => __( 'All Task Types', 'task-interface-management-textdomain' ),
+				'menu_name'    => 'Type',
 			),
 			'default_term'      => array(
-				'name'        => 'Medium',
-				'slug'        => 'medium',
-				'description' => 'This task is of normal priority.',
+				'name'        => 'General',
+				'slug'        => 'general',
+				'description' => 'The scope of this task will be general.',
 			),
 			'capabilities'      => array(
-				'manage_terms' => 'manage_task_priorities',
-				'edit_terms'   => 'manage_task_priorities',
-				'delete_terms' => 'manage_task_priorities',
+				'manage_terms' => 'manage_task_types',
+				'edit_terms'   => 'manage_task_types',
+				'delete_terms' => 'manage_task_types',
 				'assign_terms' => 'edit_tasks',
 			),
 			'args'              => array(
@@ -171,10 +173,10 @@ class Task_Post_Type {
 			'show_admin_column' => true,
 		);
 		new \Task_Interface_Management\Taxonomy(
-			'Priority',
-			'task-priority',
+			$this->post_name,
+			'task-type',
 			'task',
-			$priority_tax_args
+			$type_tax_args
 		);
 
 	}
@@ -232,13 +234,12 @@ class Task_Post_Type {
 				'editor',
 				'author',
 				'custom-fields',
-				'excerpt',
 				'page-attributes',
 			),
 			'taxonomies'       => array(
-				'task-type',
-				'task-status',
 				'task-priority',
+				'task-status',
+				'task-type',
 			),
 			'has_archive'      => true,
 			'can_export'       => true,
@@ -257,7 +258,10 @@ class Task_Post_Type {
 	/**
 	 * Add columns to the list view for posts.
 	 *
+	 * @since 1.0.1
+	 *
 	 * @param array $columns The current set of columns.
+	 *
 	 * @return array
 	 */
 	public function add_list_view_columns( $columns ) {
@@ -266,7 +270,10 @@ class Task_Post_Type {
 			$columns['author'] = __( 'Submitted By', 'task-interface-management-textdomain' );
 		}
 
-		$columns = array( 'order' => 'Rank' ) + $columns;
+		$first = array_slice( $columns, 0, 1 );
+		$first['menu_order'] = __( 'Priority', 'task-interface-manageent-textdomain' );
+		array_shift( $columns );
+		$columns = array_merge( $first, $columns );
 
 		return $columns;
 
@@ -283,16 +290,33 @@ class Task_Post_Type {
 		global $post;
 
 		switch ( $column_name ) {
-			case 'order':
+			case 'menu_order':
 				$order = $post->menu_order;
 				// if ( $order > 0 ) {
 				// 	$order = 'N/A';
 				// }
-				echo '(' . $order . ')';
+				echo $order;
 				break;
 			default:
 				break;
 		}
+
+	}
+
+	/**
+	 * Sortable order column.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $columns The columns in this post type.
+	 *
+	 * @return array
+	 */
+	function order_column_register_sortable( $columns ) {
+
+	  $columns['menu_order'] = 'menu_order';
+
+	  return $columns;
 
 	}
 

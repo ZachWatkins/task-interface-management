@@ -1,0 +1,4 @@
+.wp-admin.post-type-task .wp-list-table .column-menu_order {
+    width: 1%;
+    white-space: nowrap;
+}

@@ -45,6 +45,11 @@ class Task_Interface_Management {
 		register_activation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, array( $this, 'activation' ) );
 		register_deactivation_hook( TASK_INTERFACE_MANAGEMENT_DIR_FILE, array( $this, 'deactivation' ) );
 
+		// Assets file.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-assets.php';
+		$assets = new \Task_Interface_Management\Assets();
+
+
 		// Register post types.
 		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-post-type.php';
 		$post_type = new \Task_Interface_Management\Task_Post_Type();
