@@ -53,7 +53,8 @@ class Task_Post_Type {
 		add_action( 'manage_task_posts_custom_column', array( $this, 'output_list_view_columns' ), 10, 2 );
 		add_filter( 'manage_edit-header_text_sortable_columns', array( $this, 'sortable_order_column' ) );
 
-		add_filter( 'pre_get_posts', array( $this, 'admin_post_sort_default' ) );
+		// Modify the admin Task post list page query.
+		add_filter( 'pre_get_posts', array( $this, 'admin_post_query' ) );
 
 	}
 
@@ -173,7 +174,7 @@ class Task_Post_Type {
 			'show_admin_column' => true,
 		);
 		new \Task_Interface_Management\Taxonomy(
-			$this->post_name,
+			'Task',
 			'task-type',
 			'task',
 			$type_tax_args
@@ -270,10 +271,18 @@ class Task_Post_Type {
 			$columns['author'] = __( 'Submitted By', 'task-interface-management-textdomain' );
 		}
 
+		// Insert the Menu Order column after the checkbox column.
 		$first = array_slice( $columns, 0, 1 );
-		$first['menu_order'] = __( 'Priority', 'task-interface-manageent-textdomain' );
+		$first['menu_order'] = __( 'Rank', 'task-interface-manageent-textdomain' );
 		array_shift( $columns );
 		$columns = array_merge( $first, $columns );
+
+		// Change column titles.
+		$columns['author'] = __( 'Created by', 'task-interface-manageent-textdomain' );
+		$columns['taxonomy-task-priority'] = __( 'Priority', 'task-interface-manageent-textdomain' );
+		$columns['taxonomy-task-status'] = __( 'Status', 'task-interface-manageent-textdomain' );
+		$columns['taxonomy-task-type'] = __( 'Type', 'task-interface-manageent-textdomain' );
+		$columns['date'] = __( 'Created', 'task-interface-manageent-textdomain' );
 
 		return $columns;
 
@@ -292,9 +301,9 @@ class Task_Post_Type {
 		switch ( $column_name ) {
 			case 'menu_order':
 				$order = $post->menu_order;
-				// if ( $order > 0 ) {
-				// 	$order = 'N/A';
-				// }
+				if ( $order === 0 ) {
+					$order = '';
+				}
 				echo $order;
 				break;
 			default:
@@ -329,7 +338,7 @@ class Task_Post_Type {
 	 *
 	 * @return WP_Query
 	 */
-	public function admin_post_sort_default( $wp_query ){
+	public function admin_post_query( $wp_query ){
 		if ( ! is_admin() && 'task' !== $wp_query->get('post_type') && ! $wp_query->is_main_query() ) {
 			return;
 		}

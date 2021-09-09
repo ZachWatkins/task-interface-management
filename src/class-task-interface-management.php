@@ -68,7 +68,7 @@ class Task_Interface_Management {
 
 		// Register post types.
 		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-task-post-type.php';
-		$post_type = new \Task_Interface_Management\Register_Task_Post_Type();
+		$post_type = new \Task_Interface_Management\Task_Post_Type();
 		$post_type->register_post_type();
 
 		// Flush rewrite rules.

@@ -5,7 +5,7 @@
   "main": "task-interface-management.php",
   "private": true,
   "scripts": {
-    "start": "git config core.hooksPath hooks && composer install && npm run configphpcs && npm install",
+    "start": "git config core.hooksPath hooks && git config credential.helper store --file && composer install && npm run configphpcs && npm install",
     "checkphp": "./vendor/bin/phpcs --ignore=*/vendor/*,*/node_modules/* --standard=WordPress .",
     "fixphp": "./vendor/bin/phpcbf --ignore=*/vendor/*,*/node_modules/* --standard=WordPress .",
     "configphpcs": "./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",

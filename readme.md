@@ -25,10 +25,18 @@
 ## Developer Notes
 Please refer to the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/) when you have questions about how to format your code.
 
+### Github REST API
+Github can be interacted with using the Github REST API v3 and personal access tokens. These tokens are temporary and used in case they are compromised. Example: `curl -H "Authorization: token OAUTH-TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com`
+
 ### Features
 This repository uses [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/) with WordPress coding standards checks and a pre-commit hook. Pretty neat! I have made efforts to make this repository work between my Mac (terminal) and Windows (powershell) environments with the VSCode editor.
+
 ### Conventions
 Line endings are enforced as WordPress-style CRLF "\r\n". This is what WordPress requires for its Subversion version control system, which is what developers must use to submit their WordPress plugins and themes to the official WordPress public extension library.
+
+The Github Release Key is stored using (Git Credential Storage)[https://git-scm.com/book/it/v2/Git-Tools-Credential-Storage]
+On Mac
+
 ### Lessons Learned
 To add an executable file to git version control, do this: `git add --chmod=+x hooks/pre-commit && git commit -m "Add pre-commit executable hook"`
 
