@@ -54,7 +54,6 @@ class Task_Post_Type {
 
 		add_filter( 'manage_task_posts_columns', array( $this, 'add_list_view_columns' ) );
 		add_action( 'manage_task_posts_custom_column', array( $this, 'output_list_view_columns' ), 10, 2 );
-		add_filter( 'manage_edit-header_text_sortable_columns', array( $this, 'sortable_order_column' ) );
 
 		// Modify the admin Task post list page query.
 		add_filter( 'pre_get_posts', array( $this, 'admin_post_query' ) );
