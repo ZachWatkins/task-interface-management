@@ -103,7 +103,10 @@ class Task_Post_Type {
 			'Priority',
 			'task-priority',
 			'task',
-			$priority_tax_args
+			$priority_tax_args,
+			array(),
+			'',
+			true
 		);
 
 		// Register taxonomies.
@@ -140,7 +143,10 @@ class Task_Post_Type {
 			'Status',
 			'task-status',
 			'task',
-			$status_tax_args
+			$status_tax_args,
+			array(),
+			'',
+			true
 		);
 
 		// Register taxonomies.
@@ -177,7 +183,10 @@ class Task_Post_Type {
 			'Task',
 			'task-type',
 			'task',
-			$type_tax_args
+			$type_tax_args,
+			array(),
+			'',
+			true
 		);
 
 	}

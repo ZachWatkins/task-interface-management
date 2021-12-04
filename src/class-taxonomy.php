@@ -75,7 +75,7 @@ class Taxonomy {
 	 * @param string       $template  The template file path for the taxonomy archive page.
 	 * @return void
 	 */
-	public function __construct( $name, $slug, $post_slug = null, $user_args = array(), $meta = array(), $template = '' ) {
+	public function __construct( $name, $slug, $post_slug = null, $user_args = array(), $meta = array(), $template = '', $create_admin_filter = false ) {
 
 		$this->slug          = $slug;
 		$this->post_slug     = $post_slug;
@@ -147,6 +147,11 @@ class Taxonomy {
 			}
 		}
 		add_filter( 'posts_orderby', array( $this, 'taxonomy_orderby' ), 10, 2 );
+
+		if ( $create_admin_filter ) {
+			add_action( 'restrict_manage_posts', array( $this, 'add_posts_filter' ) );
+			add_filter( 'parse_query', array( $this, 'convert_filter_value_to_taxonomy_term_in_query' ) );
+		}
 
 	}
 
@@ -367,6 +372,57 @@ class Taxonomy {
 		}
 
 		return $orderby;
+
+	}
+
+	/**
+	 * Add taxonomy term select element to admin page.
+	 *
+	 * @return void
+	 */
+	public function add_posts_filter() {
+
+		global $typenow;
+		global $wp_query;
+		if ( $typenow==$this->post_slug ) {
+
+			$taxonomy = $this->slug;
+			$taxonomy_obj = get_taxonomy( $taxonomy );
+			wp_dropdown_categories( array(
+				'show_option_all' =>  __( "Show All {$taxonomy_obj->label}" ),
+				'value_field'     => 'slug',
+				'taxonomy'        =>  $taxonomy,
+				'name'            =>  $taxonomy,
+				'orderby'         =>  'name',
+				'selected'        =>  $wp_query->query[ $taxonomy ],
+				'hide_empty'      =>  false,
+			) );
+
+		}
+
+	}
+
+	/**
+	 * Convert the admin select element value to a taxonomy term ID for the query.
+	 *
+	 * @param WP_Query $query The main WordPress Query object for listing admin posts.
+	 * 
+	 * @return void
+	 */
+	public function convert_filter_value_to_taxonomy_term_in_query( $query ) {
+
+		global $pagenow;
+
+		$qv = &$query->query_vars;
+		
+		if (
+			$pagenow=='edit.php' &&
+			isset( $qv['taxonomy'] ) && $qv['taxonomy'] === $this->slug &&
+			isset( $qv['term'] ) && is_numeric( $qv['term'] )
+		) {
+			$term = get_term_by( 'id', $qv['term'], $this->slug );
+			$qv['term'] = $term->slug;
+		}
 
 	}
 
