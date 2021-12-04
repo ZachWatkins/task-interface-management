@@ -285,7 +285,7 @@ class Task_Post_Type {
 
 		// Insert the Menu Order column after the checkbox column.
 		$first = array_slice( $columns, 0, 1 );
-		$first['menu_order'] = __( 'Rank', 'task-interface-manageent-textdomain' );
+		$first['menu_order'] = __( 'Order', 'task-interface-management-textdomain' );
 		array_shift( $columns );
 		$columns = array_merge( $first, $columns );
 
