@@ -290,11 +290,11 @@ class Task_Post_Type {
 		$columns = array_merge( $first, $columns );
 
 		// Change column titles.
-		$columns['author'] = __( 'Created by', 'task-interface-manageent-textdomain' );
-		$columns['taxonomy-task-priority'] = __( 'Priority', 'task-interface-manageent-textdomain' );
-		$columns['taxonomy-task-status'] = __( 'Status', 'task-interface-manageent-textdomain' );
-		$columns['taxonomy-task-type'] = __( 'Type', 'task-interface-manageent-textdomain' );
-		$columns['date'] = __( 'Created', 'task-interface-manageent-textdomain' );
+		$columns['author'] = __( 'Created by', 'task-interface-management-textdomain' );
+		$columns['taxonomy-task-priority'] = __( 'Priority', 'task-interface-management-textdomain' );
+		$columns['taxonomy-task-status'] = __( 'Status', 'task-interface-management-textdomain' );
+		$columns['taxonomy-task-type'] = __( 'Type', 'task-interface-management-textdomain' );
+		$columns['date'] = __( 'Created', 'task-interface-management-textdomain' );
 
 		return $columns;
 
