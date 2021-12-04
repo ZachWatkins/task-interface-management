@@ -2,6 +2,9 @@
 /**
  * The file that adds capabilities unique to this plugin to user roles.
  *
+ * @author     Zachary Kendall Watkins <zwatkins.it@gmail.com>
+ * @copyright  (c) 2021 Zachary Kendall Watkins
+ * @license    GNU GPL-2.0+
  * @link       https://github.com/zachwatkins/task-interface-management/blob/master/src/class-user-capabilities.php
  * @since      1.0.0
  * @package    task-interface-management

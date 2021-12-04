@@ -3,8 +3,9 @@
  * Task Interface Management
  *
  * @package      Task Interface Management
- * @author       Zachary Watkins
- * @license      GPL-2.0+
+ * @author       Zachary Kendall Watkins <zwatkins.it@gmail.com>
+ * @copyright    (c) 2021 Zachary Kendall Watkins
+ * @license      GNU GPL-2.0+
  *
  * @task-interface-management
  * Plugin Name:  Task Interface Management

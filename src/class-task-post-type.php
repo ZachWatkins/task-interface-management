@@ -2,6 +2,9 @@
 /**
  * The file that defines the Task custom post type for the plugin.
  *
+ * @author     Zachary Kendall Watkins <zwatkins.it@gmail.com>
+ * @copyright  (c) 2021 Zachary Kendall Watkins
+ * @license    GNU GPL-2.0+
  * @link       https://github.com/zachwatkins/task-interface-management/blob/master/src/class-task-post-type.php
  * @since      1.0.0
  * @package    task-interface-management

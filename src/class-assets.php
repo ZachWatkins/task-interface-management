@@ -5,6 +5,9 @@
  * A class definition that includes css and js files used across both the
  * public-facing side of the site and the admin area.
  *
+ * @author     Zachary Kendall Watkins <zwatkins.it@gmail.com>
+ * @copyright  (c) 2021 Zachary Kendall Watkins
+ * @license    GNU GPL-2.0+
  * @link       https://github.com/zachwatkins/task-interface-management/blob/master/src/class-assets.php
  * @since      1.0.1
  * @package    task-interface-management

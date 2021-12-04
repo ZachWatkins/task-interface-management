@@ -5,6 +5,9 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
+ * @author     Zachary Kendall Watkins <zwatkins.it@gmail.com>
+ * @copyright  (c) 2021 Zachary Kendall Watkins
+ * @license    GNU GPL-2.0+
  * @link       https://github.com/zachwatkins/task-interface-management/blob/master/src/class-task-interface-management.php
  * @since      1.0.0
  * @package    task-interface-management
