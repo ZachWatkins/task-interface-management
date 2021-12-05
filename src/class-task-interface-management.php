@@ -59,6 +59,10 @@ class Task_Interface_Management {
 		$post_type->register();
 		$post_type->hooks();
 
+		// Register the post status helper class.
+		require_once TASK_INTERFACE_MANAGEMENT_DIR_PATH . 'src/class-post-status.php';
+		$post_status = new \Task_Interface_Management\Post\Status();
+
 	}
 
 	/**
