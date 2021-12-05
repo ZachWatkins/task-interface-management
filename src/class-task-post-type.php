@@ -355,4 +355,5 @@ class Task_Post_Type {
 		}
 		return $wp_query;
 	}
+
 }

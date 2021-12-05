@@ -24,24 +24,20 @@ class Status {
 		'post_type'    => 'task',
 		'status_slug'  => 'task-complete',
 		'status_label' => 'Complete',
-		'domain'       => 'default',
-		'context'      => 'backend',
-		'replacements' => array(
-			'Publish' => 'Complete',
-			'Publish' => 'Complete',
-		),
 	);
 
 	public function __construct() {
-
-		// add_action( 'init', array( $this, 'task_post_status' ) );
+		  
+		add_action( 'init', array( $this, 'task_post_status' ) );
+		
+		// Restrict the post status to "Private" and "Complete".
 		add_action( 'wp_insert_post', array( $this, 'manage_post_status' ), 11, 2 );
+		  
+		// Hide the admin post visibility option.
+		add_action('current_screen', array( $this, 'wpseCurrentScreenAction' ) );
 
 		// Shim in the post status content into the editor UI.
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_status_add_to_dropdown' ) );
-
-		// Replace "Publish" text in button with "Complete".
-		add_filter( 'gettext', array( $this, 'translate_publish_button' ), 10, 3 );
 
 	}
 	
@@ -62,7 +58,7 @@ class Status {
 	}
 
 	/**
-	 * Change the post status to add or remove the Completed status.
+	 * Change the post status to switch between Completed or Private..
 	 * Fires once a post, its terms and meta data has been saved.
 	 * 
      * @param int          $post_id     Post ID.
@@ -76,25 +72,49 @@ class Status {
 		$has_completed_status = false !== strpos( $post->post_status, 'complete' ) ? true : false;
 
 		$status_terms = get_the_terms( $post_id, 'task-status' );
+
 		foreach ( $status_terms as $term ) {
 			if ( false !== strpos( $term->slug, 'complete' ) ) {
 				$has_completed_term = true;
 				break;
 			}
 		}
-		error_log( intval( $has_completed_term ), 0, 'PHP_ERROR_LOG' );
 
 		if ( $has_completed_term && ! $has_completed_status ) {
+
+			remove_action( 'wp_insert_post', array( $this, 'manage_post_status' ) );
 			wp_update_post(array(
 				'ID'          => $post_id,
-				'post_status' => $this->params['status_slug']
+				'post_status' => 'task-complete'
 			));
-		} elseif ( ! $has_completed_term && $has_completed_status ) {
+			add_action( 'wp_insert_post', array( $this, 'manage_post_status' ) );
+
+		} elseif ( ! $has_completed_term || in_array( $post->post_status, array( 'private', 'draft' ), true ) ) {
+
+			remove_action( 'wp_insert_post', array( $this, 'manage_post_status' ) );
 			wp_update_post(array(
 				'ID'          => $post_id,
 				'post_status' => 'private'
 			));
+			add_action( 'wp_insert_post', array( $this, 'manage_post_status' ) );
+
 		}
+
+	}
+		  
+	public function wpseCurrentScreenAction( $current_screen ) {
+		
+		if ( 'task' == $current_screen->post_type && 'post' == $current_screen->base ) {
+
+			add_action( 'admin_head', array( $this, 'wpseNoVisibility' ) );
+
+		}
+
+	}
+	
+	public function wpseNoVisibility() {
+
+		echo '<style>div#visibility.misc-pub-section.misc-pub-visibility{display:none}</style>';
 
 	}
 
@@ -113,13 +133,13 @@ class Status {
 		$status = '';
 		switch ( $post->post_status ) {
 			case $this->params['status_slug']:
-				$status = "jQuery( '#post-status-display' ).text( '{$this->params['status_label']}' );
-jQuery( 'select[name=\"post_status\"]' ).val('{$this->params['status_slug']}')";
+				$status = "jQuery( '#post-status-display' ).text( 'Complete' );
+jQuery( 'select[name=\"post_status\"]' ).val('complete')";
 				break;
 
 			case 'publish':
-				$status = "jQuery( '#post-status-display' ).text( 'Published' );
-jQuery( 'select[name=\"post_status\"]' ).val('publish')";
+				$status = "jQuery( '#post-status-display' ).text( 'Private' );
+jQuery( 'select[name=\"post_status\"]' ).val('private')";
 				break;
 
 			default:
@@ -129,7 +149,7 @@ jQuery( 'select[name=\"post_status\"]' ).val('publish')";
 		echo wp_kses(
 			"<script>
 			jQuery(document).ready( function() {
-				jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"{$this->params['status_slug']}\">{$this->params['status_label']}</option>' );
+				jQuery( 'select[name=\"post_status\"]' ).append( '<option value=\"complete\">Complete</option>' );
 				" . $status . "
 			});
 		</script>",
@@ -142,38 +162,4 @@ jQuery( 'select[name=\"post_status\"]' ).val('publish')";
 			)
 		);
 	}
-
-    /**
-     * The real working code.
-     * 
-     * @param  string $translated
-     * @param  string $original
-     * @param  string $domain
-	 * 
-     * @return string
-     */
-    public function translate_publish_button( $translated, $original, $domain ) {
-
-		global $current_screen;
-		if ( 'post' !== $current_screen->base && $domain !== $this->params['domain'] ) {
-			return $translated;
-		}
-		
-        // exit early
-        if ( 'backend' === $this->params['context'] ) {
-			global $post_type;
-			
-            if ( ! empty( $post_type ) && $post_type !== $this->params['post_type'] ) {
-				return $translated;
-            }
-        }
-
-        if ( $this->params['domain'] !== $domain ) {
-			return $translated;
-        }
-		
-        // Finally replace
-		return strtr( $original, $this->params['replacements'] );
-
-    }
 }
